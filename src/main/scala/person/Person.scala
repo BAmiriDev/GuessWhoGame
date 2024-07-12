@@ -12,7 +12,8 @@ class Person(
               val clothingType: String,
               val height: String
 
-            ) {
+            )
 
 
-}
+
+
