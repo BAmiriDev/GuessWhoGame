@@ -1,10 +1,10 @@
 import gameengine.GameEngine
-import person.GuessWhoGame
+import characters.Resources
 
-object StartGame extends App{
-
+object GuessWhoGame extends App{
+  // Select random players of Characters
   val gameEngine: GameEngine = new GameEngine
-  val guessWhoGame: GuessWhoGame = new GuessWhoGame
+  val guessWhoGame: Resources = new Resources
   println(gameEngine.selectRandomCharacter(guessWhoGame.returnListOfCharacters()))
 
 }

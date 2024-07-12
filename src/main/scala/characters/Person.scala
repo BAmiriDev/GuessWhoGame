@@ -1,4 +1,4 @@
-package person
+package characters
 
 case class Person(
                    val name: String,

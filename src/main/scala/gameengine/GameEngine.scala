@@ -1,5 +1,5 @@
 package gameengine
-import person.Person
+import characters.Person
 
 import scala.math.random
 import scala.util.Random
