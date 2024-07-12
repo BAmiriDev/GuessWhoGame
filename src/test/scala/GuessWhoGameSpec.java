@@ -1,2 +1,2 @@
-public class GuessWhoGameSpec {
+public class GuessWhoGameSpec  {
 }
