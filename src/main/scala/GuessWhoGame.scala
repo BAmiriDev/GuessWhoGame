@@ -1,5 +1,5 @@
 class GuessWhoGame {
 
-  val Newr = "hello"
+  val New = "hello"
 
 }
