@@ -6,24 +6,43 @@ import scala.io.StdIn.readLine
 import scala.util.Random
 
 class GameEngine {
-
-  val guesWhoGame1 = new Resources
+  val resources = new Resources
+  val questionList = resources.listOfQuestions
   val random = new Random()
   // Instantiate the game board
-  val gameBoard = new GameBoard(guesWhoGame1.charactersList)
+  val gameBoard = new GameBoard(resources.charactersList)
+  // create firstPlayer
+  val firstPlayer: Player = createPlayerAndAssignGameBoard()
+  var continuedPlaying: Boolean = true
 
-  def createPlayerAndAssignGameBoard(): String = {
+  def createPlayerAndAssignGameBoard(): Player = {
     val playerName = readLine("Enter your name")
-    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1)
-    player.name
+    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
+      selectRandomCharacter(resources.charactersList))
+    player
+  }
+
+  def startTheGame() ={
+
+    while(continuedPlaying){
+      if(firstPlayer.gameBoard.length==1) continuedPlaying = false
+      val question = selectRandomQuestions()
+      println(question)
+      val answer: Boolean = readLine().toBoolean
+      println(firstPlayer.secretCharacter)
+      val firstPlayer.gameBoard = filterCharacters(firstPlayer.gameBoard, question, answer)
+      println(firstPlayer.gameBoard)
+
+
+    }
   }
 
   def selectRandomCharacter(characterList: List[Person]) : Person ={
       val reply = characterList(random.nextInt(characterList.length))
       reply
   }
-  def selectRandomQuestions(questionsList: List[String]) : String ={
-    val question = questionsList(random.nextInt(questionsList.length))
+  def selectRandomQuestions() : String ={
+    val question = questionList(random.nextInt(questionList.length))
     question
   }
 
@@ -37,9 +56,9 @@ class GameEngine {
     filteredCharacters
   }
 
-  def returnListOfFilteredCharacters(question: String, answer: Boolean): ListBuffer[Person] = {
-    filterCharacters(gameBoard.gameBoardForPlayer1,question, answer)
-  }
+//  def returnListOfFilteredCharacters(question: String, answer: Boolean): ListBuffer[Person] = {
+//    filterCharacters(gameBoard.gameBoardForPlayer1,question, answer)
+//  }
 
 
 
