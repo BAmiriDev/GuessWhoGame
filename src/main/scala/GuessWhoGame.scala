@@ -5,11 +5,12 @@ object GuessWhoGame extends App{
   // Select random players of Characters
   val gameEngine: GameEngine = new GameEngine
   val guessWhoGame: Resources = new Resources
+  val player1 = gameEngine.firstPlayer
 
 
 
 //  println("Create game and assign Board " +gameEngine.firstPlayer.secretCharacter)
-  println(gameEngine.startTheGame())
+   gameEngine.startTheGame()
 //  println(gameEngine.selectRandomCharacter(guessWhoGame.charactersList))
 //  println(gameEngine.selectRandomQuestions(guessWhoGame.listOfQuestions))
 //
@@ -18,5 +19,6 @@ object GuessWhoGame extends App{
 //  println(gameEngine.returnListOfFilteredCharacters(question, answer))
 
 //  gameEngine.gameLoop()
+//  println(gameEngine.filterCharacters(characters = player1.gameBoard, "Does the character have short hair?", false))
 
 }

@@ -11,8 +11,8 @@ class Resources {
   // Questions list
   val listOfQuestions: List[String] = List(
       "Is your character male",
-      "Is your character male or female?",
-      "Is your character's hair color brown",
+      "Is your character female?",
+      "Is your character's hair color brown?",
       "Is your character's hair color blonde?",
       "Is your character's hair color black?",
       "Is your character's hair color red",

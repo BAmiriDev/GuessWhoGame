@@ -1,4 +1,5 @@
 package gameengine
+
 import characters.{GameBoard, Person, Player, Resources}
 
 import scala.collection.mutable.ListBuffer
@@ -9,39 +10,40 @@ class GameEngine {
   val resources = new Resources
   val questionList = resources.listOfQuestions
   val random = new Random()
-  // Instantiate the game board
+  // instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
   val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
   def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name")
+    val playerName = readLine("Enter your name: ")
     val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
       selectRandomCharacter(resources.charactersList))
     player
   }
 
-  def startTheGame() ={
-
-    while(continuedPlaying){
-      if(firstPlayer.gameBoard.length==1) continuedPlaying = false
-      val question = selectRandomQuestions()
-      println(question)
-      val answer: Boolean = readLine().toBoolean
-      println(firstPlayer.secretCharacter)
-      val firstPlayer.gameBoard = filterCharacters(firstPlayer.gameBoard, question, answer)
-      println(firstPlayer.gameBoard)
-
-
+  def startTheGame() = {
+    var changingGameBoard = firstPlayer.gameBoard
+    while (continuedPlaying) {
+      if (firstPlayer.gameBoard.length == 1) continuedPlaying = false
+      else {
+        println("Your secret Character is" + firstPlayer.secretCharacter.toString)
+        val question:String = "Does the character have short hair?"
+        println(question)
+        val playerAnswer: Boolean = readLine().toBoolean
+        changingGameBoard = filterCharacters(changingGameBoard, question, playerAnswer)
+        println(changingGameBoard.map(_.name))
+      }
     }
   }
 
-  def selectRandomCharacter(characterList: List[Person]) : Person ={
-      val reply = characterList(random.nextInt(characterList.length))
-      reply
+  def selectRandomCharacter(characterList: List[Person]): Person = {
+    val reply = characterList(random.nextInt(characterList.length))
+    reply
   }
-  def selectRandomQuestions() : String ={
+
+  def selectRandomQuestions(): String = {
     val question = questionList(random.nextInt(questionList.length))
     question
   }
@@ -56,16 +58,12 @@ class GameEngine {
     filteredCharacters
   }
 
-//  def returnListOfFilteredCharacters(question: String, answer: Boolean): ListBuffer[Person] = {
-//    filterCharacters(gameBoard.gameBoardForPlayer1,question, answer)
-//  }
+  //  def returnListOfFilteredCharacters(question: String, answer: Boolean): ListBuffer[Person] = {
+  //    filterCharacters(gameBoard.gameBoardForPlayer1,question, answer)
+  //  }
 
 
- //end game
-
-
-
-
+  //end game
 
 
 }
