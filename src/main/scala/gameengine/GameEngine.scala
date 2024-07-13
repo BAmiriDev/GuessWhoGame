@@ -8,7 +8,7 @@ import scala.util.Random
 
 class GameEngine {
   val resources = new Resources
-  val questionList = resources.listOfQuestions
+  var questionList = resources.listOfQuestions
   val random = new Random()
   // Instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
@@ -33,9 +33,9 @@ class GameEngine {
       val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
       println(firstPlayer.gameBoard.map(_.name))
 
-      if (firstPlayer.gameBoard.length == 1) continuedPlaying = false
-    }
 
+    }
+    println(s"is you charcter $")
 
   }
 
@@ -46,8 +46,19 @@ class GameEngine {
   }
 
   def selectRandomQuestions(): String = {
-    val question = questionList(random.nextInt(questionList.length))
-    question
+    val questionsLength = random.nextInt(questionList.length)
+    val questions = questionList(questionsLength)
+    questionList = questionList.filterNot(_ == questions)
+
+    if( questionList.length == 0) {
+      "no more questions"
+    } else{
+      questions
+    }
+
+
+
+
   }
 
   def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): Unit = {
@@ -61,6 +72,7 @@ class GameEngine {
       case "Does your character have long hair?" => characters.filterInPlace(_.hairLength == "Long" == answer)
       case _ =>
     }
+
   }
 
 
