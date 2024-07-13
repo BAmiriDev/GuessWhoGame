@@ -1,5 +1,7 @@
-import characters.Resources
+import characters.{Person, Resources}
 import gameengine.GameEngine
+
+import scala.collection.mutable.ListBuffer
 
 object GuessWhoGame extends App{
   // Select random players of Characters
@@ -20,5 +22,7 @@ object GuessWhoGame extends App{
 
 //  gameEngine.gameLoop()
 //  println(gameEngine.filterCharacters(characters = player1.gameBoard, "Does the character have short hair?", false))
+
+
 
 }

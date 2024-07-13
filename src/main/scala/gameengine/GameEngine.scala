@@ -10,33 +10,34 @@ class GameEngine {
   val resources = new Resources
   val questionList = resources.listOfQuestions
   val random = new Random()
-  // instantiate the game board
+  // Instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
   val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
   def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name: ")
+    val playerName = readLine("Enter your name")
     val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
       selectRandomCharacter(resources.charactersList))
     player
   }
 
   def startTheGame() = {
-    var changingGameBoard = firstPlayer.gameBoard
     while (continuedPlaying) {
       if (firstPlayer.gameBoard.length == 1) continuedPlaying = false
-      else {
-        println("Your secret Character is" + firstPlayer.secretCharacter.toString)
-        val question:String = "Does the character have short hair?"
-        println(question)
-        val playerAnswer: Boolean = readLine().toBoolean
-        changingGameBoard = filterCharacters(changingGameBoard, question, playerAnswer)
-        println(changingGameBoard.map(_.name))
-      }
+      println(firstPlayer.secretCharacter)
+      val question = selectRandomQuestions()
+      println(question)
+      val answer: Boolean = readLine().toBoolean
+      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
+      println(firstPlayer.gameBoard.map(_.name))
+
     }
+
+
   }
+
 
   def selectRandomCharacter(characterList: List[Person]): Person = {
     val reply = characterList(random.nextInt(characterList.length))
@@ -48,22 +49,19 @@ class GameEngine {
     question
   }
 
-  def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): ListBuffer[Person] = {
-    val filteredCharacters = question match {
-      case "Does the character have short hair?" => characters.filter(_.hairLength == "Short" == answer)
-      case "Is the character male?" => characters.filter(_.gender == "Male" == answer)
-      case "Does the character have black hair?" => characters.filter(_.hairColour == "Black" == answer)
-      case _ => characters
+  def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): Unit = {
+    question match {
+      case "Is your character male" => characters.filterInPlace(_.gender == "Male" == answer)
+      case "Is your character female?" => characters.filterInPlace(_.gender == "Female" == answer)
+      case "Is your character's hair color brown" => characters.filterInPlace(_.hairColour == "Brown" == answer)
+      case "Is your character's hair color blonde?" => characters.filterInPlace(_.hairColour == "Blonde" == answer)
+      case "Is your character's hair color black?" => characters.filterInPlace(_.hairColour == "Black" == answer)
+      case "Is your character's hair color red" => characters.filterInPlace(_.hairColour == "Red" == answer)
+      case "Does your character have long hair?" => characters.filterInPlace(_.hairLength == "Long" == answer)
+      case _ =>
+
     }
-    filteredCharacters
   }
-
-  //  def returnListOfFilteredCharacters(question: String, answer: Boolean): ListBuffer[Person] = {
-  //    filterCharacters(gameBoard.gameBoardForPlayer1,question, answer)
-  //  }
-
-
-  //end game
 
 
 }
