@@ -8,7 +8,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
   // Initialize game engine and resources once
   val gameEngine: GameEngine = new GameEngine
   val guessWhoGame: Resources = new Resources
-  val gameBoard: GameBoard = new GameBoard(Person)
+  // val gameBoard: GameBoard = new GameBoard(Person)
 
   // Initialize expected values directly
   val expectedCharacters: List[Person] = guessWhoGame.charactersList
