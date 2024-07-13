@@ -1,5 +1,7 @@
-import characters.Resources
+import characters.{Person, Resources}
 import gameengine.GameEngine
+
+import scala.collection.mutable.ListBuffer
 
 object GuessWhoGame extends App{
   // Select random players of Characters
@@ -14,6 +16,8 @@ object GuessWhoGame extends App{
   val question = "Is the character male?"
   val answer = false
   println(gameEngine.returnListOfFilteredCharacters(question, answer))
+
+
 
 
 

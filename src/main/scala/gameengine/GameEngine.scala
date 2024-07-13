@@ -42,7 +42,12 @@ class GameEngine {
   }
 
 
- //end game
+
+  def endGame(charcters: ListBuffer[Person]): Boolean = {
+    charcters.length == 1
+  }
+
+
 
 
 
