@@ -2,7 +2,6 @@ package characters
 
 import gameengine.GameEngine
 import org.scalatest.wordspec.AnyWordSpec
-
 import scala.collection.mutable.ListBuffer
 
 class GuessWhoGameSpec extends AnyWordSpec {
@@ -10,11 +9,9 @@ class GuessWhoGameSpec extends AnyWordSpec {
   // Initialize game engine and resources once
   val gameEngine: GameEngine = new GameEngine
   val guessWhoGame: Resources = new Resources
-  val gameBoard: GameBoard = new GameBoard(guessWhoGame.charactersList)
-
 
   // Initialize expected values directly
-  val expectedCharacters: ListBuffer[Person] = gameBoard.gameBoardForPlayer
+  val expectedCharacters: List[Person] = guessWhoGame.charactersList
   val expectedQuestions: List[String] = guessWhoGame.listOfQuestions
 
   "Resources.returnListOfCharacters" should {
@@ -58,25 +55,40 @@ class GuessWhoGameSpec extends AnyWordSpec {
   "GameEngine.filterCharacters" should {
     "filter characters based on the question and answer" when {
       "called to filter characters" in {
-        val question = "Is the character male?"
+        val question = "Is your character male"
         val answer = true
-        val filteredCharacters = gameEngine.filterCharacters(expectedCharacters, question, answer)
+        val filteredCharacters = ListBuffer.from(expectedCharacters)
+        gameEngine.filterCharacters(filteredCharacters, question, answer)
         val expectedFilteredCharacters = expectedCharacters.filter(_.gender == "Male")
-        assert(filteredCharacters == expectedFilteredCharacters)
+        assert(filteredCharacters.toList == expectedFilteredCharacters)
       }
     }
   }
 
-
   "GameEngine.filterCharactersByAnswer" should {
     "filter characters based on the string answer" when {
       "called to filter characters by string answer" in {
-        val question = "Is the character male?"
+        val question = "Is your character male"
         val answer = false
-        val filteredCharacters = gameEngine.filterCharacters(expectedCharacters, question, answer)
+        val filteredCharacters = ListBuffer.from(expectedCharacters)
+        gameEngine.filterCharacters(filteredCharacters, question, answer)
         val expectedFilteredCharacters = expectedCharacters.filter(_.gender == "Female")
-        assert(filteredCharacters == expectedFilteredCharacters)
+        assert(filteredCharacters.toList == expectedFilteredCharacters)
       }
     }
+  }
+
+  "GameEngine.endGame" should {
+    "return true when only one character is left" in {
+      val singleCharacterList = ListBuffer(guessWhoGame.charactersList.head)
+      assert(gameEngine.endGame(singleCharacterList))
+    }
+
+    "return false when more than one character is left" in {
+      val characters = ListBuffer.from(expectedCharacters)
+      assert(!gameEngine.endGame(characters))
+    }
+
+
   }
 }
