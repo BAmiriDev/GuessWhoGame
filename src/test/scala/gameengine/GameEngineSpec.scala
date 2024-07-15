@@ -4,8 +4,8 @@ import characters.{GameBoard, Person, Player, Resources}
 import org.scalatest.wordspec.AnyWordSpec
 
 class GameEngineSpec extends AnyWordSpec {
-  val resources = new Resources
-  val gameBoard = new GameBoard(resources.charactersList)
+  val resources: Resources = new Resources
+  val gameBoard: GameBoard = new GameBoard(resources.charactersList)
   val testCharacter: Person = resources.charactersList(1)
   val gameEngine = new GameEngine()
   "GameEngine.createPlayerAndAssignGameBoard" should {
