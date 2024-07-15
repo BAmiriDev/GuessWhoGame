@@ -11,7 +11,7 @@ object GuessWhoGame extends App{
 
 
 //  println("Create game and assign Board " +gameEngine.firstPlayer.secretCharacter)
-  println(gameEngine.startTheGame())
+//  println(gameEngine.startTheGame())
 //  println(gameEngine.selectRandomCharacter(guessWhoGame.charactersList))
 //  println(gameEngine.selectRandomQuestions(guessWhoGame.listOfQuestions))
 //

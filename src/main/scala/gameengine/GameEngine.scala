@@ -13,7 +13,7 @@ class GameEngine {
   // Instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
-  val firstPlayer: Player = createPlayerAndAssignGameBoard()
+ // val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
 
@@ -61,28 +61,28 @@ class GameEngine {
   }
 
 
-  def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name")
-    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
-      selectRandomCharacter(resources.charactersList))
-    player
-  }
+//  def createPlayerAndAssignGameBoard(): Player = {
+//    val playerName = readLine("Enter your name")
+//    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
+//      selectRandomCharacter(resources.charactersList))
+//    player
+//  }
 
-  def startTheGame() = {
-    while (continuedPlaying) {
-      if (firstPlayer.gameBoard.length == 1 || questionList == questionList.empty ) continuedPlaying = false
-      println(firstPlayer.secretCharacter)
-      val question = selectRandomQuestions()
-      println(question)
-      val answer: Boolean = readLine().toBoolean
-      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
-      println(firstPlayer.gameBoard.map(_.name))
-
-
-    }
-    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
-
-  }
+//  def startTheGame() = {
+//    while (continuedPlaying) {
+//      if (firstPlayer.gameBoard.length == 1 || questionList == questionList.empty ) continuedPlaying = false
+//      println(firstPlayer.secretCharacter)
+//      val question = selectRandomQuestions()
+//      println(question)
+//      val answer: Boolean = readLine().toBoolean
+//      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
+//      println(firstPlayer.gameBoard.map(_.name))
+//
+//
+//    }
+//    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
+//
+//  }
 
 
 }
