@@ -25,16 +25,19 @@ class GameEngine {
 
   def startTheGame() = {
     while (continuedPlaying) {
-      if (endGame(firstPlayer.gameBoard) ) {
+      if (endGame(firstPlayer.gameBoard)) {
         println("Congraulations you won")
         continuedPlaying = false
       }
-      println(firstPlayer.secretCharacter)
-      val question = selectRandomQuestions()
-      println(question)
-      val answer: Boolean = readLine().toBoolean
-      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
-      println(firstPlayer.gameBoard.map(_.name))
+      else {
+        println(firstPlayer.secretCharacter)
+        val question = selectRandomQuestions()
+        println(question)
+        val answer: Boolean = readLine().toBoolean
+        val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
+        println(firstPlayer.gameBoard.map(_.name))
+      }
+
     }
     println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
 
@@ -47,17 +50,17 @@ class GameEngine {
   }
 
   def selectRandomQuestions(): String = {
-    val questionsLength = random.nextInt(questionList.length)
-    val questions = questionList(questionsLength)
+    //val questionsLength = random.nextInt(questionList.length)
+    val questions = questionList(random.nextInt(questionList.length))
     questionList = questionList.filterNot(_ == questions)
 
-    if( questionList.length == 0) {
+    if (questionList.isEmpty) {
+      continuedPlaying = false
       "no more questions"
-    } else{
+    }
+    else {
       questions
     }
-
-
 
 
   }
@@ -77,7 +80,13 @@ class GameEngine {
   }
 
   def endGame(charcters: ListBuffer[Person]): Boolean = {
-    charcters.length == 1
+    if (questionList.isEmpty || charcters.length == 1) {
+      println("\"no more questions\"")
+      true
+    }
+    else {
+      false
+    }
   }
 
 
