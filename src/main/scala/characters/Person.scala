@@ -13,3 +13,4 @@ case class Person(
                    wearsNecklace: Boolean,
                    hairLength: String
                  )
+
