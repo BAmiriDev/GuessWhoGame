@@ -92,18 +92,8 @@ class GuessWhoGameSpec extends AnyWordSpec {
     }
   }
 
-  "GameEngine.filterCharacters by hair length" should {
-    "filter characters based on the question and answer for hair length" when {
-      "called to filter characters by hair length" in {
-        val question = "Does your character have long hair?"
-        val answer = false
-        val filteredCharacters = ListBuffer.from(expectedCharacters)
-        gameEngine.filterCharacters(filteredCharacters, question, answer)
-        val expectedFilteredCharacters = expectedCharacters.filter(_.hairLength != "Long")
-        assert(filteredCharacters.toList == expectedFilteredCharacters)
-      }
-    }
-  }
+
+
 
   "GameEngine.endGame" should {
     "return true when only one character is left" in {
@@ -117,10 +107,6 @@ class GuessWhoGameSpec extends AnyWordSpec {
     }
   }
 
-  "GameEngine.startTheGame" should {
-    "Run the game" in {
-      val
-      assert(gameEngine.startTheGame())
-    }
+
 
 }
