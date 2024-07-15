@@ -36,7 +36,7 @@ class GameEngine {
         continuedPlaying = false
       }
       else{
-        printSecretCharacterForPlayer(firstPlayer.secretCharacter)
+        println(printSecretCharacterForPlayer(firstPlayer.secretCharacter))
         val question = selectRandomQuestions()
         println(question)
         val answer: Boolean = readLine().toBoolean
@@ -82,18 +82,23 @@ class GameEngine {
     }
      else question
   }
-  def  printSecretCharacterForPlayer(secretCharacter: Person): Unit = {
-    // Create header for player
+
+  /***
+   * Prints the secret Character of player in formatted order
+   * @param secretCharacter the gameBoard assigned for player1
+   */
+  def  printSecretCharacterForPlayer(secretCharacter: Person): String = {
+    // Create header for displaying the attribute
     val header = f"|${"Name"}%-15s | ${"Gender"}%-10s | ${"Hair Colour"}%-15s | ${"Wears Glasses"}%-15s |" +
       f"|${"Wears Hat"}%-15s ||${"Has Beard"}%-15s ||${"Eye Color"}%-15s |"
-    // Create a separator line
+    // create a separator line
     val separator = "|" + "-" * 17 + "+" + "-" * 12 + "+" + "-" * 17 + "+" + "-" * 17 + "|" + "|" + "-" * 17 + "+" + "-" * 12 + "+" + "-" * 17 + "+" + "-" * 17 + "|"
-    // Create the values row
+    // create the values row
     val row = f"| ${secretCharacter.name}%-15s | ${secretCharacter.gender}%-10s | ${secretCharacter.hairColor}%-15s | ${secretCharacter.wearsGlasses}%-15s |" +
       f"${secretCharacter.wearsHat}%-15s${secretCharacter.hasBeard}%-15s${secretCharacter.eyeColor}%-15s"
     val output: String = header + "\n" + separator + "\n" + row
-    println(s"***Player1's secret character is ***\n" + output)
-    println("******************************************************************")
+    output
+
   }
 
   /**
