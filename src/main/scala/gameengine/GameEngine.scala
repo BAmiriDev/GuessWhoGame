@@ -85,6 +85,7 @@ class GameEngine {
       case "Does your character have long hair?" => characters.filter(_.hairLength == "Long" == answer)
       case _ => characters
     }
+    characters
 
 
   }

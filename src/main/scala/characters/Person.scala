@@ -12,4 +12,7 @@ case class Person(
                    hasEarrings: Boolean,
                    wearsNecklace: Boolean,
                    hairLength: String
-                 )
+                 ){
+
+}
+
