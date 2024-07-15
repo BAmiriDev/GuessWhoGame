@@ -8,9 +8,5 @@ case class Person(
                    wearsHat: Boolean,
                    hasBeard: Boolean,
                    eyeColor: String,
-                   hasFreckles: Boolean,
-                   hasEarrings: Boolean,
-                   wearsNecklace: Boolean,
-                   hairLength: String
                  )
 
