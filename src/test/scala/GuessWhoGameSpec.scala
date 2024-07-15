@@ -3,15 +3,18 @@ package characters
 import gameengine.GameEngine
 import org.scalatest.wordspec.AnyWordSpec
 
+import scala.collection.mutable.ListBuffer
+
 class GuessWhoGameSpec extends AnyWordSpec {
 
   // Initialize game engine and resources once
   val gameEngine: GameEngine = new GameEngine
   val guessWhoGame: Resources = new Resources
-  // val gameBoard: GameBoard = new GameBoard(Person)
+  val gameBoard: GameBoard = new GameBoard(guessWhoGame.charactersList)
+
 
   // Initialize expected values directly
-  val expectedCharacters: List[Person] = guessWhoGame.charactersList
+  val expectedCharacters: ListBuffer[Person] = gameBoard.gameBoardForPlayer
   val expectedQuestions: List[String] = guessWhoGame.listOfQuestions
 
   "Resources.returnListOfCharacters" should {
@@ -46,7 +49,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
     "select a random question from the list" when {
       "called to select a random question" in {
         val questions = guessWhoGame.listOfQuestions
-        val selectedQuestion = gameEngine.selectRandomQuestions(questions)
+        val selectedQuestion = gameEngine.selectRandomQuestions()
         assert(questions.contains(selectedQuestion))
       }
     }
@@ -63,7 +66,6 @@ class GuessWhoGameSpec extends AnyWordSpec {
       }
     }
   }
-
 
 
   "GameEngine.filterCharactersByAnswer" should {

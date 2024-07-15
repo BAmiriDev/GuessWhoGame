@@ -16,16 +16,17 @@ class GameEngine {
   val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
+  // needs to be tested
   def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name")
-    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
+    val player = new Player(name = "Player1", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
     player
+
   }
 
   def startTheGame() = {
     while (continuedPlaying) {
-      if (endGame(firstPlayer.gameBoard) ) {
+      if (endGame(firstPlayer.gameBoard)) {
         println("Congraulations you won")
         continuedPlaying = false
       }
@@ -51,13 +52,11 @@ class GameEngine {
     val questions = questionList(questionsLength)
     questionList = questionList.filterNot(_ == questions)
 
-    if( questionList.length == 0) {
+    if (questionList.length == 0) {
       "no more questions"
-    } else{
+    } else {
       questions
     }
-
-
 
 
   }
@@ -73,6 +72,7 @@ class GameEngine {
       case "Does your character have long hair?" => characters.filterInPlace(_.hairLength == "Long" == answer)
       case _ =>
     }
+
 
   }
 
