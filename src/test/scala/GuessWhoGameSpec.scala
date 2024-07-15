@@ -1,7 +1,7 @@
-package characters
-
+import characters.{Person, Resources}
 import gameengine.GameEngine
 import org.scalatest.wordspec.AnyWordSpec
+
 import scala.collection.mutable.ListBuffer
 
 class GuessWhoGameSpec extends AnyWordSpec {
@@ -116,4 +116,11 @@ class GuessWhoGameSpec extends AnyWordSpec {
       assert(!gameEngine.endGame(multipleCharactersList))
     }
   }
+
+  "GameEngine.startTheGame" should {
+    "Run the game" in {
+      val
+      assert(gameEngine.startTheGame())
+    }
+
 }
