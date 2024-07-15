@@ -16,28 +16,7 @@ class GameEngine {
   val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
-  def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name")
-    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
-      selectRandomCharacter(resources.charactersList))
-    player
-  }
 
-  def startTheGame() = {
-    while (continuedPlaying) {
-      if (firstPlayer.gameBoard.length == 1) continuedPlaying = false
-      println(firstPlayer.secretCharacter)
-      val question = selectRandomQuestions()
-      println(question)
-      val answer: Boolean = readLine().toBoolean
-      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
-      println(firstPlayer.gameBoard.map(_.name))
-
-
-    }
-    println(s"is you charcter $")
-
-  }
 
 
   def selectRandomCharacter(characterList: List[Person]): Person = {
@@ -79,6 +58,30 @@ class GameEngine {
 
   def endGame(charcters: ListBuffer[Person]): Boolean = {
     charcters.length == 1
+  }
+
+
+  def createPlayerAndAssignGameBoard(): Player = {
+    val playerName = readLine("Enter your name")
+    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
+      selectRandomCharacter(resources.charactersList))
+    player
+  }
+
+  def startTheGame() = {
+    while (continuedPlaying) {
+      if (firstPlayer.gameBoard.length == 1 || questionList == questionList.empty ) continuedPlaying = false
+      println(firstPlayer.secretCharacter)
+      val question = selectRandomQuestions()
+      println(question)
+      val answer: Boolean = readLine().toBoolean
+      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
+      println(firstPlayer.gameBoard.map(_.name))
+
+
+    }
+    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
+
   }
 
 
