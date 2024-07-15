@@ -61,16 +61,29 @@ class GameEngine {
 
   }
 
-  def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): Unit = {
+  def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): ListBuffer[Person] = {
     question match {
+      // if the answer is false removes male else removes female
       case "Is your character male" => characters.filterInPlace(_.gender == "Male" == answer)
       case "Is your character female?" => characters.filterInPlace(_.gender == "Female" == answer)
-      case "Is your character's hair color brown" => characters.filterInPlace(_.hairColour == "Brown" == answer)
-      case "Is your character's hair color blonde?" => characters.filterInPlace(_.hairColour == "Blonde" == answer)
-      case "Is your character's hair color black?" => characters.filterInPlace(_.hairColour == "Black" == answer)
-      case "Is your character's hair color red" => characters.filterInPlace(_.hairColour == "Red" == answer)
-      case "Does your character have long hair?" => characters.filterInPlace(_.hairLength == "Long" == answer)
-      case _ =>
+      case "Is your character's hair color brown?" => characters.filter(_.hairColor == "Brown" == answer)
+      case "Is your character's hair color blonde?" => characters.filter(_.hairColor == "Blonde" == answer)
+      case "Is your character's hair color black?" => characters.filter(_.hairColor == "Black" == answer)
+      case "Is your character's hair color red?" => characters.filter(_.hairColor == "Red" == answer)
+      case "Does your character wear glasses?" => characters.filter(_.wearsGlasses == answer)
+      case "Does your character wear a hat?" => characters.filter(_.wearsHat == answer)
+      case "Does your character have a beard?" => characters.filter(_.hasBeard == answer)
+      case "Does your character have blue eyes?" => characters.filter(_.eyeColor == "Blue" == answer)
+      case "Does your character have green eyes?" => characters.filter(_.eyeColor == "Green" == answer)
+      case "Does your character have brown eyes?" => characters.filter(_.eyeColor == "Brown" == answer)
+      case "Does your character have hazel eyes?" => characters.filter(_.eyeColor == "Hazel" == answer)
+      case "Does your character have freckles?" => characters.filter(_.hasFreckles == answer)
+      case "Does your character have earrings?" => characters.filter(_.hasEarrings == answer)
+      case "Does your character wear a necklace?" => characters.filter(_.wearsNecklace == answer)
+      case "Does your character have short hair?" => characters.filter(_.hairLength == "Short" == answer)
+      case "Does your character have medium hair?" => characters.filter(_.hairLength == "Medium" == answer)
+      case "Does your character have long hair?" => characters.filter(_.hairLength == "Long" == answer)
+      case _ => characters
     }
 
 

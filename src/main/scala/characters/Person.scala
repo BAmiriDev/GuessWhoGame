@@ -1,11 +1,15 @@
 package characters
 
 case class Person(
-                   val name: String,
-                   val gender: String,
-                   val hairColour: String,
-                   val hairLength: String,
-//                   val eyeColour: String,
-//                   val accessories: String,
-//                   val complexion: String,
+                   name: String,
+                   gender: String,
+                   hairColor: String,
+                   wearsGlasses: Boolean,
+                   wearsHat: Boolean,
+                   hasBeard: Boolean,
+                   eyeColor: String,
+                   hasFreckles: Boolean,
+                   hasEarrings: Boolean,
+                   wearsNecklace: Boolean,
+                   hairLength: String
                  )
