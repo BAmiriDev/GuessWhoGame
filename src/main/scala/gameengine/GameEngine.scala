@@ -8,7 +8,7 @@ import scala.util.Random
 
 class GameEngine {
   val resources = new Resources
-  val questionList = resources.listOfQuestions
+  var questionList = resources.listOfQuestions
   val random = new Random()
   // Instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
@@ -25,16 +25,18 @@ class GameEngine {
 
   def startTheGame() = {
     while (continuedPlaying) {
-      if (firstPlayer.gameBoard.length == 1) continuedPlaying = false
+      if (endGame(firstPlayer.gameBoard) ) {
+        println("Congraulations you won")
+        continuedPlaying = false
+      }
       println(firstPlayer.secretCharacter)
       val question = selectRandomQuestions()
       println(question)
       val answer: Boolean = readLine().toBoolean
       val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
       println(firstPlayer.gameBoard.map(_.name))
-
     }
-
+    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
 
   }
 
@@ -45,8 +47,19 @@ class GameEngine {
   }
 
   def selectRandomQuestions(): String = {
-    val question = questionList(random.nextInt(questionList.length))
-    question
+    val questionsLength = random.nextInt(questionList.length)
+    val questions = questionList(questionsLength)
+    questionList = questionList.filterNot(_ == questions)
+
+    if( questionList.length == 0) {
+      "no more questions"
+    } else{
+      questions
+    }
+
+
+
+
   }
 
   def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): Unit = {
@@ -59,8 +72,12 @@ class GameEngine {
       case "Is your character's hair color red" => characters.filterInPlace(_.hairColour == "Red" == answer)
       case "Does your character have long hair?" => characters.filterInPlace(_.hairLength == "Long" == answer)
       case _ =>
-
     }
+
+  }
+
+  def endGame(charcters: ListBuffer[Person]): Boolean = {
+    charcters.length == 1
   }
 
 

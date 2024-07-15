@@ -1,7 +1,5 @@
 package characters
 
-import scala.collection.mutable.ListBuffer
-
 class Resources {
   //create a list of characters
   val firstCharacter: Person = Person(name = "David", gender = "Male", hairColour = "Black", hairLength = "Short")
@@ -11,12 +9,12 @@ class Resources {
 
   val charactersList: List[Person] = List(firstCharacter, secondCharacter, thirdCharacter, fourthCharacter)
   // Questions list
-  val listOfQuestions: ListBuffer[String] = ListBuffer(
-      "Is your character male",
-      "Is your character female?",
-      "Is your character's hair color brown",
-      "Is your character's hair color blonde?",
-      "Is your character's hair color black?",
-      "Is your character's hair color red",
-      "Does your character have long hair?")
+  val listOfQuestions: List[String] = List(
+    "Is your character male",
+    "Is your character female?",
+    "Is your character's hair color brown",
+    "Is your character's hair color blonde?",
+    "Is your character's hair color black?",
+    "Is your character's hair color red",
+    "Does your character have long hair?")
 }
