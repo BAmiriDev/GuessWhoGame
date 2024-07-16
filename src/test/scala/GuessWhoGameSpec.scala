@@ -10,9 +10,10 @@ class GuessWhoGameSpec extends AnyWordSpec {
   val gameEngine: GameEngine = new GameEngine
   val guessWhoGame: Resources = new Resources
 
+
   // Initialize expected values directly
   val expectedCharacters: List[Person] = guessWhoGame.charactersList
-  val expectedQuestions: List[String] = guessWhoGame.listOfQuestions
+  var expectedQuestions: List[String] = guessWhoGame.listOfQuestions
 
   "Resources.returnListOfCharacters" should {
     "return a list of characters" when {
@@ -51,11 +52,19 @@ class GuessWhoGameSpec extends AnyWordSpec {
       }
     }
   }
+  //  "GameEngine.selectRandomQuestions" should {
+  //    "return 'no more questions' when the questions list is empty" in {
+  //      // Call one more time to get the 'no more questions' result
+  //      questionList.empty
+  //      val result = gameEngine.selectRandomQuestions()
+  //      assert(result == "no more questions")
+  //    }
+  //  }
 
   "GameEngine.filterCharacters" should {
     "filter characters based on the question and answer" when {
       "called to filter characters" in {
-        val question = "Is your character male?"
+        val question = "Is your person male?"
         val answer = true
         val filteredCharacters = ListBuffer.from(expectedCharacters)
         gameEngine.filterCharacters(filteredCharacters, question, answer)
@@ -68,7 +77,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
   "GameEngine.filterCharactersByAnswer" should {
     "filter characters based on the string answer" when {
       "called to filter characters by string answer" in {
-        val question = "Is your character male?"
+        val question = "Is your person male?"
         val answer = false
         val filteredCharacters = ListBuffer.from(expectedCharacters)
         gameEngine.filterCharacters(filteredCharacters, question, answer)
@@ -77,23 +86,35 @@ class GuessWhoGameSpec extends AnyWordSpec {
       }
     }
   }
-
-  // Additional test cases for filtered characters
-  "GameEngine.filterCharacters by hair color" should {
-    "filter characters based on the question and answer for hair color" when {
-      "called to filter characters by hair color" in {
-        val question = "Is your character's hair color black?"
-        val answer = true
-        val filteredCharacters = ListBuffer.from(expectedCharacters)
-        gameEngine.filterCharacters(filteredCharacters, question, answer)
-        val expectedFilteredCharacters = expectedCharacters.filter(_.hairColor == "Black")
-        assert(filteredCharacters.toList == expectedFilteredCharacters)
-      }
+  "GameEngine.filterCharacters" should {
+    "filter characters based on the attribute 'no beard'" in {
+      val question = "Does your person have a beard?"
+      val answer = false
+      val filteredCharacters = ListBuffer.from(expectedCharacters)
+      gameEngine.filterCharacters(filteredCharacters, question, answer)
+      val expectedFilteredCharacters = expectedCharacters.filter(_.hasBeard == false)
+      assert(filteredCharacters.toList == expectedFilteredCharacters)
     }
   }
-
-
-
+  "GameEngine.filterCharacters" should {
+    "filter characters based on the attribute 'blue eyes'" in {
+      val question = "Does your person have blue eyes?"
+      val answer = true
+      val filteredCharacters = ListBuffer.from(expectedCharacters)
+      gameEngine.filterCharacters(filteredCharacters, question, answer)
+      val expectedFilteredCharacters = expectedCharacters.filter(_.eyeColor == "Blue")
+      assert(filteredCharacters.toList == expectedFilteredCharacters)
+    }
+  }
+  "GameEngine.filterCharacters" should {
+    "handle edge case where no characters match the criteria" in {
+      val question = "Does your person have purple hair?"
+      val answer = true
+      val filteredCharacters = ListBuffer.from(expectedCharacters)
+      gameEngine.filterCharacters(filteredCharacters, question, answer)
+      assert(filteredCharacters.isEmpty)
+    }
+  }
 
   "GameEngine.endGame" should {
     "return true when only one character is left" in {
@@ -102,11 +123,10 @@ class GuessWhoGameSpec extends AnyWordSpec {
     }
 
     "return false when more than one character is left" in {
-      val multipleCharactersList = ListBuffer.from(expectedCharacters)
-      assert(!gameEngine.endGame(multipleCharactersList))
+      val characters = ListBuffer.from(expectedCharacters)
+      assert(!gameEngine.endGame(characters))
     }
+
+
   }
-
-
-
 }
