@@ -16,6 +16,33 @@ class GameEngine {
   val firstPlayer: Player = createPlayerAndAssignGameBoard()
   var continuedPlaying: Boolean = true
 
+  def createPlayerAndAssignGameBoard(): Player = {
+    val playerName = readLine("Enter your name")
+    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
+      selectRandomCharacter(resources.charactersList))
+    player
+  }
+
+  def startTheGame() = {
+    while (continuedPlaying) {
+      if (endGame(firstPlayer.gameBoard)) {
+        println("Congraulations you won")
+        continuedPlaying = false
+      }
+      else {
+        println(firstPlayer.secretCharacter)
+        val question = selectRandomQuestions()
+        println(question)
+        val answer: Boolean = readLine().toBoolean
+        val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
+        println(firstPlayer.gameBoard.map(_.name))
+      }
+
+    }
+    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
+
+  }
+
 
   def selectRandomCharacter(characterList: List[Person]): Person = {
     val reply = characterList(random.nextInt(characterList.length))
@@ -23,10 +50,18 @@ class GameEngine {
   }
 
   def selectRandomQuestions(): String = {
+    //val questionsLength = random.nextInt(questionList.length)
     val questions = questionList(random.nextInt(questionList.length))
     questionList = questionList.filterNot(_ == questions)
 
-    questions
+    if (questionList.isEmpty) {
+      continuedPlaying = false
+      "no more questions"
+    }
+    else {
+      questions
+    }
+
 
   }
 
@@ -46,36 +81,12 @@ class GameEngine {
 
   def endGame(charcters: ListBuffer[Person]): Boolean = {
     if (questionList.isEmpty || charcters.length == 1) {
-      println("no more questions")
+      println("\"no more questions\"")
       true
-    } else {
+    }
+    else {
       false
     }
-  }
-
-
-  def createPlayerAndAssignGameBoard(): Player = {
-    val playerName = readLine("Enter your name")
-    val player = new Player(name = playerName, gameBoard = gameBoard.gameBoardForPlayer1,
-      selectRandomCharacter(resources.charactersList))
-    player
-  }
-
-  def startTheGame() = {
-    while (continuedPlaying) {
-      if (endGame(firstPlayer.gameBoard)) {
-        println("Congraulations you won")
-        continuedPlaying = false
-      }
-      println(firstPlayer.secretCharacter)
-      val question = selectRandomQuestions()
-      println(question)
-      val answer: Boolean = readLine().toBoolean
-      val remainingCharacters = filterCharacters(firstPlayer.gameBoard, question, answer)
-      println(firstPlayer.gameBoard.map(_.name))
-    }
-    println(s"is this your charcter ${firstPlayer.secretCharacter.name}")
-
   }
 
 
