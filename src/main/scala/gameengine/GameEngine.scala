@@ -77,7 +77,6 @@ class GameEngine {
     val question = questionList(questionsLength)
     questionList = questionList.filterNot(_ == question)
 
-    if (questionList.isEmpty) "no more questions, You WIN!!!"
 
     if (questionList.isEmpty){
       continuedPlaying = false
