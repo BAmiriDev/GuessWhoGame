@@ -110,7 +110,7 @@ class GameEngine {
    * @param characters The list of character for the gameBoard
    * @param question The answer to the question (true or false).
    * @param answer A list of characters that match the filter criteria.
-   * @return
+   * @return the filtered gameBoard for the player
    */
   def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): ListBuffer[Person] = {
     question match {
