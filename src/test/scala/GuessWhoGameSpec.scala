@@ -67,7 +67,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
         val answer = false
         val gameEngine = new GameEngine
 
-        // List of characters to be filtered
+
         val charactersList = List(
           Person("John", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue"),
           Person("Jane", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green"),
@@ -75,17 +75,14 @@ class GuessWhoGameSpec extends AnyWordSpec {
         )
 
         val filteredCharacters = ListBuffer.from(charactersList)
-
-        // Apply the filtering
         gameEngine.filterCharacters(filteredCharacters, question, answer)
 
-        // Expected list of female characters
         val expectedFilteredCharacters = List(
           Person("Jane", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green"),
           Person("Doe", "Female", "Black", wearsGlasses = false, wearsHat = false, hasBeard = true, "Brown")
         )
 
-        // Compare the filtered characters with the expected list
+
         assert(filteredCharacters.toList == expectedFilteredCharacters)
       }
     }
@@ -97,7 +94,6 @@ class GuessWhoGameSpec extends AnyWordSpec {
       val answer = false
       val gameEngine = new GameEngine
 
-      // List of characters to be filtered
       val charactersList = List(
         Person("Alex", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue"),
         Person("Beth", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green"),
@@ -105,17 +101,14 @@ class GuessWhoGameSpec extends AnyWordSpec {
       )
 
       val filteredCharacters = ListBuffer.from(charactersList)
-
-      // Apply the filtering
       gameEngine.filterCharacters(filteredCharacters, question, answer)
 
-      // Expected list of characters without beards
+
       val expectedFilteredCharacters = List(
         Person("Alex", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue"),
         Person("Beth", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green")
       )
 
-      // Compare the filtered characters with the expected list
       assert(filteredCharacters.toList == expectedFilteredCharacters)
     }
   }
@@ -126,7 +119,6 @@ class GuessWhoGameSpec extends AnyWordSpec {
       val answer = true
       val gameEngine = new GameEngine
 
-      // List of characters to be filtered
       val charactersList = List(
         Person("Alex", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue"),
         Person("Beth", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green"),
@@ -134,16 +126,13 @@ class GuessWhoGameSpec extends AnyWordSpec {
       )
 
       val filteredCharacters = ListBuffer.from(charactersList)
-
-      // Apply the filtering
       gameEngine.filterCharacters(filteredCharacters, question, answer)
 
-      // Expected list of characters with blue eyes
       val expectedFilteredCharacters = List(
         Person("Alex", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue")
       )
 
-      // Compare the filtered characters with the expected list
+
       assert(filteredCharacters.toList == expectedFilteredCharacters)
     }
   }
