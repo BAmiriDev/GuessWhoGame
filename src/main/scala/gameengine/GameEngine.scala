@@ -15,7 +15,12 @@ class GameEngine {
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
   private val firstPlayer: Player = createPlayerAndAssignGameBoard()
+  private val cpuPlayer: Player = createPlayerAndAssignGameBoard()
+
   private var continuedPlaying: Boolean = true
+
+  private var cpuQuestionList: List[String] = resources.listOfQuestions
+  private var playerQuestionList: List[String] = resources.listOfQuestions
 
   /**
    * Create an object of player by assigning name, gameBoard and secret characters
@@ -31,12 +36,48 @@ class GameEngine {
    * Starts the Game by calling all the necessary methods
    */
   def startTheGame():String = {
+    var firstPlayerTurn: Boolean = true
     while (continuedPlaying) {
       if (endGame(firstPlayer.gameBoard)) {
         continuedPlaying = false
       }
       else{
-        println(printSecretCharacterForPlayer(firstPlayer.secretCharacter))
+        printSecretCharacterForPlayer(firstPlayer.secretCharacter)
+        showGameBoard(firstPlayer.gameBoard, firstPlayer.name)
+        // print secret player and game board for the CPU
+        printSecretCharacterForPlayer(cpuPlayer.secretCharacter)
+        showGameBoard(cpuPlayer.gameBoard, cpuPlayer.name)
+        if (firstPlayerTurn) {
+          println(s"${firstPlayer.name}'s Turn!!!!!'")
+          println("Select the questions from below:")
+          for ((question, index) <- playerQuestionList.zipWithIndex) {
+            println(s"${index + 1}. $question")
+          }
+          /*
+           take input from user:( example : Is your character female ?)
+           to select the question then filters out the selected  question
+           */
+          val selectedQuestionIndex = readLine("Select your question:").toInt
+          val selectedQuestion: String = playerQuestionList(selectedQuestionIndex - 1)
+          println(s"Your selected Question is: $selectedQuestion")
+
+          // filter out the selectedQuestionList
+          filterQuestionsForPlayer(selectedQuestion)
+          /*
+           if the cpu secret character has that attribute(female)
+           then it will be true and updates player board by removing males
+           */
+          val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+          println(cpuAnswer)
+          /*
+           if the CPU secret character does not have that attribute then it will
+           return false and update the player board by removing females
+           */
+          filterCharacters(firstPlayer.gameBoard, selectedQuestion, cpuAnswer)
+          // make playerTurn to false to prompt CPU to ask questions and to answer the question
+          firstPlayerTurn = false
+        }
+        println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
         val question = selectRandomQuestions()
         println(question)
         val answer: Boolean = readLine().toBoolean
@@ -64,6 +105,9 @@ class GameEngine {
     val randomCharacter = characterList(random.nextInt(characterList.length))
     randomCharacter
   }
+  def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
+    playerQuestionList = playerQuestionList.filterNot(_ == selectedQuestion)
+  }
 
   /**
    * Select random question from the question list and filters out
@@ -81,6 +125,14 @@ class GameEngine {
       "no more questions"
     }
      else question
+  }
+  def showGameBoard(firstPlayerGameBoard: ListBuffer[Person], playerName: String): Unit = {
+    println(s"***********$playerName's Game board ***********")
+    println(f"|${"Name"}|${"Gender"}|${"Hair Colour"}|${"Hair Length"}|")
+    for (row <- firstPlayerGameBoard) {
+      println(row.productIterator.mkString("|"))
+    }
+    println("**************************************")
   }
 
   /***
@@ -127,6 +179,13 @@ class GameEngine {
       case _ =>
     }
     characters
+  }
+  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
+    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
+    else if (question.contains(cpuPlayer.secretCharacter.hairColor.toLowerCase())) true
+    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
+    //else if (question.contains(cpuPlayer.secretCharacter.wearsGlasses.toLowerCase())) true
+    else false
   }
 
   /**
