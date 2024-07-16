@@ -27,33 +27,7 @@ class GameEngine {
     player
   }
 
-  /**
-   * Starts the Game by calling all the necessary methods
-   */
-  def startTheGame():String = {
-    while (continuedPlaying) {
-      if (endGame(firstPlayer.gameBoard)) {
-        continuedPlaying = false
-      }
-      else{
-        println(printSecretCharacterForPlayer(firstPlayer.secretCharacter))
-        val question = selectRandomQuestions()
-        println(question)
-        val answer: Boolean = readLine().toBoolean
-        filterCharacters(firstPlayer.gameBoard, question, answer)
-        println(firstPlayer.gameBoard.map(_.name))
-      }
 
-    }
-    if(firstPlayer.gameBoard.head.name == firstPlayer.secretCharacter.name){
-      s"Is this your character ${firstPlayer.gameBoard.head.name}?"
-    }
-    else{
-      s"Is this your character ${firstPlayer.gameBoard.head.name}?\n"+
-      s"You win"
-    }
-
-  }
 
   /**
    * Select random character by from Character List from Resources class
