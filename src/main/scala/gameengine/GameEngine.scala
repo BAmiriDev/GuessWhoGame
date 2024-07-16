@@ -22,7 +22,7 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-    val player = new Player(name = "Player1", gameBoard = gameBoard.gameBoardForPlayer,
+    val player = new Player(name = "playerName", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
     player
   }
@@ -33,9 +33,10 @@ class GameEngine {
   def startTheGame(): String = {
     while (continuedPlaying) {
       if (endGame(firstPlayer.gameBoard)) {
-          continuedPlaying = false
+        println("Congratulations, you won!")
+        continuedPlaying = false
       }
-      else if (questionList.isEmpty){
+      else if (questionList.isEmpty) {
         println("No more questions left: I couldn't guess!")
         println("You Won")
         continuedPlaying = false
@@ -44,23 +45,21 @@ class GameEngine {
         println(s"Your secret character is: \n${printSecretCharacterForPlayer(firstPlayer.secretCharacter)}")
         val question = selectRandomQuestions()
         println(question)
-        val answer: String = readLine("Write either true or false :")
+        val answer: String = readLine("Write either true or false: ")
         if(answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")){
           filterCharacters(firstPlayer.gameBoard, question, answer.toBoolean)
-          println(s" Your Game Board is: \n ${firstPlayer.gameBoard.map(_.name)}")
-        }
-        else{
-          println("Sorry invalid input please try again!!!")
+          println(s"Your Game Board is: \n${firstPlayer.gameBoard.map(_.name).mkString("\n")}")
+        } else {
+          println("Sorry, invalid input. Please try again!")
         }
       }
-
     }
     if (firstPlayer.gameBoard.head.name == firstPlayer.secretCharacter.name) {
       s"Is this your character ${firstPlayer.gameBoard.head.name}?"
     }
     else {
       s"Is this your character ${firstPlayer.gameBoard.head.name}?\n" +
-        s"Congratulations You win!!!!"
+        s"Congratulations, You win!!!!"
     }
   }
   /**
