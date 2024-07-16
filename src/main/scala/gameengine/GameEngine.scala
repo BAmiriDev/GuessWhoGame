@@ -28,7 +28,6 @@ class GameEngine {
   }
 
 
-
   /**
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
@@ -42,7 +41,7 @@ class GameEngine {
   /**
    * Select random question from the question list and filters out
    * questionList which is returned so that there is no repeated questions
-   *@return if
+   * @return if
    *         * list is empty returns there are `no more questions`
    *         else returns the selected random question
    */
@@ -50,21 +49,14 @@ class GameEngine {
     val questionsLength = random.nextInt(questionList.length)
     val question = questionList(questionsLength)
     questionList = questionList.filterNot(_ == question)
-
-
-    if (questionList.isEmpty){
-      continuedPlaying = false
-      "no more questions"
-    }
-
-     else question
+    question
   }
 
-  /***
+  /** *
    * Prints the secret Character of player in formatted order
    * @param secretCharacter the gameBoard assigned for player1
    */
-  def  printSecretCharacterForPlayer(secretCharacter: Person): String = {
+  def printSecretCharacterForPlayer(secretCharacter: Person): String = {
     // Create header for displaying the attribute
     val header = f"|${"Name"}%-15s | ${"Gender"}%-10s | ${"Hair Colour"}%-15s | ${"Wears Glasses"}%-15s |" +
       f"|${"Wears Hat"}%-15s ||${"Has Beard"}%-15s ||${"Eye Color"}%-15s |"
@@ -81,9 +73,9 @@ class GameEngine {
   /**
    * Filters out the list of character based upon the question and answer
    * @param characters The list of character for the gameBoard
-   * @param question The answer to the question (true or false).
-   * @param answer A list of characters that match the filter criteria.
-   * @return
+   * @param question   The answer to the question (true or false).
+   * @param answer     A list of characters that match the filter criteria.
+   * @return the filtered gameBoard for the player
    */
   def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): ListBuffer[Person] = {
     question match {
@@ -106,13 +98,12 @@ class GameEngine {
     characters
   }
 
-
   /**
    * Checks if the length of the gameBoard is 1 means only one character left in the gameBoard
    * @param characters The game board of the player
    * @return returns true if the length of gameBoard == 1 else returns false
    */
-  def endGame(characters: ListBuffer[Person]): Boolean = {
-    characters.length == 1
+  def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
+    playerGameBoard.length == 1
   }
 }
