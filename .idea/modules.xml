@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GuessWhoGame.iml" filepath="$PROJECT_DIR$/.idea/modules/GuessWhoGame.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/GuessWhoGame.GuessWhoGame-build.iml" filepath="$PROJECT_DIR$/.idea/modules/GuessWhoGame.GuessWhoGame-build.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../.idea/modules/documents.iml" filepath="$PROJECT_DIR$/../.idea/modules/documents.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../.idea/modules/documents.documents-build.iml" filepath="$PROJECT_DIR$/../.idea/modules/documents.documents-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GuesswhoGame.UnitTestingAfternoonTask.iml" filepath="$PROJECT_DIR$/.idea/modules/GuesswhoGame.UnitTestingAfternoonTask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GuesswhoGame.UnitTestingAfternoonTask.UnitTestingAfternoonTask-build.iml" filepath="$PROJECT_DIR$/.idea/modules/GuesswhoGame.UnitTestingAfternoonTask.UnitTestingAfternoonTask-build.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UnitTestingAfternoonTask.iml" filepath="$PROJECT_DIR$/.idea/modules/UnitTestingAfternoonTask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/UnitTestingAfternoonTask.UnitTestingAfternoonTask-build.iml" filepath="$PROJECT_DIR$/.idea/modules/UnitTestingAfternoonTask.UnitTestingAfternoonTask-build.iml" />
     </modules>
   </component>
 </project>
