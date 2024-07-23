@@ -55,10 +55,7 @@ class GameEngine {
     }
   }
   /**
-<<<<<<< HEAD
 
-=======
->>>>>>> 01e917d3d4714d38a4399af0f38b257c3c116d91
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
@@ -96,6 +93,7 @@ class GameEngine {
     // filter out the selectedQuestionList
     filterQuestionsForPlayer(selectedQuestion)
     val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+    filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
     println(cpuAnswer)
 
   }
@@ -120,10 +118,29 @@ class GameEngine {
   def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
     questionList = questionList.filterNot(_ == selectedQuestion)
   }
+//  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
+//    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
+//    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
+//    else false
+//  }
   def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
-    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
-    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
-    else false
+    question.toLowerCase match {
+      case question if question.contains("male") => cpuPlayer.secretCharacter.gender == Male
+      case question if question.contains("female") => cpuPlayer.secretCharacter.gender == Female
+      case question if question.contains("blond hair") => cpuPlayer.secretCharacter.hairColor == Blonde
+      case question if question.contains("brown hair") => cpuPlayer.secretCharacter.hairColor == DarkBrown
+      case question if question.contains("black hair") => cpuPlayer.secretCharacter.hairColor == Black
+      case question if question.contains("red hair") => cpuPlayer.secretCharacter.hairColor == Red
+      case question if question.contains("grey hair") => cpuPlayer.secretCharacter.hairColor == Grey
+      case question if question.contains("glasses") => cpuPlayer.secretCharacter.wearsGlasses.value
+      case question if question.contains("hat") => cpuPlayer.secretCharacter.wearsHat.value
+      case question if question.contains("beard") => cpuPlayer.secretCharacter.hasBeard.value
+      case question if question.contains("blue") => cpuPlayer.secretCharacter.eyeColor == Blue
+      case question if question.contains("brown") => cpuPlayer.secretCharacter.eyeColor == Brown
+      case question if question.contains("green") => cpuPlayer.secretCharacter.eyeColor == Green
+      case question if question.contains("hazel") => cpuPlayer.secretCharacter.eyeColor == Hazel
+      case _ => false
+    }
   }
 
   /**
