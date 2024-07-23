@@ -2,7 +2,9 @@ package gameengine
 
 import characters.{Black, Blonde, Blue, Brown, DarkBrown, EyeColour, Female, GameBoard, Gender, Green, Grey, HairColour, Hazel, Male, Person, PersonWithBeard, PersonWithGlasses, PersonWithHat, Player, Red, Resources}
 
+import scala.Console.println
 import scala.collection.mutable.ListBuffer
+import scala.io.StdIn.readLine
 import scala.util.Random
 
 class GameEngine {
@@ -21,16 +23,12 @@ class GameEngine {
    */
   def createPlayerAndAssignGameBoard(): Player = {
 
-    val player = new Player(name = "playerName", gameBoard = gameBoard.gameBoardForPlayer,
-    new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
-
-    val player = new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
-
+     new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
   }
 
   /**
-<<<<<<< HEAD
+
    * Starts the Game by calling all the necessary methods
    */
   def startTheGame(): String = {
@@ -57,13 +55,17 @@ class GameEngine {
     }
   }
   /**
+<<<<<<< HEAD
 
+=======
+>>>>>>> 01e917d3d4714d38a4399af0f38b257c3c116d91
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
    */
   def selectRandomCharacter(characterList: List[Person]): Person = {
-    characterList(random.nextInt(characterList.length))
+    val randomCharacter = characterList(random.nextInt(characterList.length))
+    randomCharacter
   }
 
   /**
@@ -109,9 +111,11 @@ class GameEngine {
     // create a separator line
     val separator = "|" + "-" * 17 + "+" + "-" * 12 + "+" + "-" * 17 + "+" + "-" * 17 + "|" + "|" + "-" * 17 + "+" + "-" * 12 + "+" + "-" * 17 + "+" + "-" * 17 + "|"
     // create the values row
-    val row = f"| ${secretCharacter.name}%-15s | ${secretCharacter.gender}%-10s | ${secretCharacter.hairColor}%-15s | ${secretCharacter.wearsGlasses.value}%-15s |" +
-      f"${secretCharacter.wearsHat.value}%-15s${secretCharacter.hasBeard.value}%-15s${secretCharacter.eyeColor}%-15s"
-    header + "\n" + separator + "\n" + row
+    val row = f"| ${secretCharacter.name}%-15s | ${secretCharacter.gender}%-10s | ${secretCharacter.hairColor}%-15s | ${secretCharacter.wearsGlasses}%-15s |" +
+      f"${secretCharacter.wearsHat}%-15s${secretCharacter.hasBeard}%-15s${secretCharacter.eyeColor}%-15s"
+    val output: String = header + "\n" + separator + "\n" + row
+    output
+
   }
   def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
     questionList = questionList.filterNot(_ == selectedQuestion)
