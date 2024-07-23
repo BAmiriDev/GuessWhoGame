@@ -15,7 +15,6 @@ class GameEngine {
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
   private val cpuPlayer: Player = createPlayerAndAssignGameBoard()
-  private var continuedPlaying: Boolean = true
 
   /**
    * Create an object of player by assigning name, gameBoard and secret characters
@@ -30,26 +29,18 @@ class GameEngine {
    * Starts the Game by calling all the necessary methods
    */
   def startTheGame(): String = {
-    while (continuedPlaying) {
-      if (endGame(cpuPlayer.gameBoard)) {
-        println("Congratulations, you won!")
-        continuedPlaying = false
+    if (endGame(cpuPlayer.gameBoard)) {
+        "Congratulations, you won!"
+
       }
       else if (questionList.isEmpty) {
-        println("No more questions left: I couldn't guess!")
-        println("You Won")
-        continuedPlaying = false
+        "No more questions left: I couldn't guess!"
+
       }
       else {
         playerTurn()
+        startTheGame()
       }
-    }
-    if (cpuPlayer.gameBoard.head.name == cpuPlayer.secretCharacter.name) {
-      s"Is this your character ${cpuPlayer.gameBoard.head.name}?"
-    }
-    else {
-      s"Is this your character ${cpuPlayer.gameBoard.head.name}?\n" +
-        s"Congratulations, You win!!!!"
     }
   }
   /**
@@ -115,9 +106,7 @@ class GameEngine {
     questionList = questionList.filterNot(_ == selectedQuestion)
   }
   def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
-    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
-    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
-    else false
+    ???
   }
 
   /**
