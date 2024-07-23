@@ -12,7 +12,7 @@ class GameEngine {
   // Instantiate the game board
   val gameBoard = new GameBoard(resources.charactersList)
   // create firstPlayer
-  private val firstPlayer: Player = createPlayerAndAssignGameBoard()
+  private val cpuPlayer: Player = createPlayerAndAssignGameBoard()
   private var continuedPlaying: Boolean = true
 
   /**
@@ -20,8 +20,12 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
+
     val player = new Player(name = "playerName", gameBoard = gameBoard.gameBoardForPlayer,
     new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+
+    val player = new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+
       selectRandomCharacter(resources.charactersList))
   }
 
@@ -31,7 +35,7 @@ class GameEngine {
    */
   def startTheGame(): String = {
     while (continuedPlaying) {
-      if (endGame(firstPlayer.gameBoard)) {
+      if (endGame(cpuPlayer.gameBoard)) {
         println("Congratulations, you won!")
         continuedPlaying = false
       }
@@ -41,23 +45,14 @@ class GameEngine {
         continuedPlaying = false
       }
       else {
-        println(s"Your secret character is: \n${printSecretCharacterForPlayer(firstPlayer.secretCharacter)}")
-        val question = selectRandomQuestions()
-        println(question)
-        val answer: String = readLine("Write either true or false: ")
-        if(answer.equalsIgnoreCase("true") || answer.equalsIgnoreCase("false")){
-          filterCharacters(firstPlayer.gameBoard, question, answer.toBoolean)
-          println(s"Your Game Board is: \n${firstPlayer.gameBoard.map(_.name).mkString("\n")}")
-        } else {
-          println("Sorry, invalid input. Please try again!")
-        }
+        playerTurn()
       }
     }
-    if (firstPlayer.gameBoard.head.name == firstPlayer.secretCharacter.name) {
-      s"Is this your character ${firstPlayer.gameBoard.head.name}?"
+    if (cpuPlayer.gameBoard.head.name == cpuPlayer.secretCharacter.name) {
+      s"Is this your character ${cpuPlayer.gameBoard.head.name}?"
     }
     else {
-      s"Is this your character ${firstPlayer.gameBoard.head.name}?\n" +
+      s"Is this your character ${cpuPlayer.gameBoard.head.name}?\n" +
         s"Congratulations, You win!!!!"
     }
   }
@@ -85,6 +80,24 @@ class GameEngine {
     question
   }
 
+  def playerTurn() ={
+    println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
+    showGameBoard(cpuPlayer.gameBoard, "CPU")
+    println(s" Your Turn!!!!!'")
+    println("Select the questions from below:")
+    for ((question, index) <- questionList.zipWithIndex) {
+      println(s"${index + 1}. $question")
+    }
+    val selectedQuestionIndex = readLine("Select your question:").toInt
+    val selectedQuestion: String = questionList(selectedQuestionIndex - 1)
+    println(s"You selected : ${selectedQuestion}")
+    // filter out the selectedQuestionList
+    filterQuestionsForPlayer(selectedQuestion)
+    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+    println(cpuAnswer)
+
+  }
+
   /** *
    * Prints the secret Character of player in formatted order
    * @param secretCharacter the gameBoard assigned for player1
@@ -99,6 +112,14 @@ class GameEngine {
     val row = f"| ${secretCharacter.name}%-15s | ${secretCharacter.gender}%-10s | ${secretCharacter.hairColor}%-15s | ${secretCharacter.wearsGlasses.value}%-15s |" +
       f"${secretCharacter.wearsHat.value}%-15s${secretCharacter.hasBeard.value}%-15s${secretCharacter.eyeColor}%-15s"
     header + "\n" + separator + "\n" + row
+  }
+  def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
+    questionList = questionList.filterNot(_ == selectedQuestion)
+  }
+  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
+    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
+    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
+    else false
   }
 
   /**
@@ -127,6 +148,13 @@ class GameEngine {
       case _ => characters.clear() // If the question does not match any case, clear the list
     }
     characters
+  }
+  def showGameBoard(firstPlayerGameBoard: ListBuffer[Person], playerName: String): Unit = {
+    println(s"***********$playerName's Game board ***********")
+    for (row <- firstPlayerGameBoard) {
+      print(row.name)
+      print(" ")
+    }
   }
 
   /**
