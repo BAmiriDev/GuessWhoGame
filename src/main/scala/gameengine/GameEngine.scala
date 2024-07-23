@@ -20,7 +20,7 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-    new Player(name = "Player1", gameBoard = gameBoard.gameBoardForPlayer,
+    new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
   }
 

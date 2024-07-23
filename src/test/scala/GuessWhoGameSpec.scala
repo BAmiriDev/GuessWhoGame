@@ -1,4 +1,4 @@
-import characters.{Person, Resources, PersonWithBeard, PersonWithGlasses, PersonWithHat, Gender, HairColour, EyeColour, Female, Male, Blue, Brown, Green, Blonde, Black, Hazel}
+import characters.{Black, Blonde, Blue, Brown, DarkBrown, EyeColour, Female, Gender, Green, HairColour, Hazel, Male, Person, PersonWithBeard, PersonWithGlasses, PersonWithHat, Resources}
 import gameengine.GameEngine
 import org.scalatest.wordspec.AnyWordSpec
 
@@ -43,7 +43,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
         val gameEngine = new GameEngine
 
         val charactersList = List(
-          Person("John", Male, Brown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
+          Person("John", Male, DarkBrown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
           Person("Jane", Female, Blonde, PersonWithGlasses(false), PersonWithHat(true), PersonWithBeard(false), Green),
           Person("Doe", Female, Black, PersonWithGlasses(false), PersonWithHat(false), PersonWithBeard(true), Brown)
         )
@@ -66,7 +66,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
       val gameEngine = new GameEngine
 
       val charactersList = List(
-        Person("Alex", Male, Brown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
+        Person("Alex", Male, DarkBrown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
         Person("Beth", Female, Blonde, PersonWithGlasses(false), PersonWithHat(true), PersonWithBeard(false), Green),
         Person("Chris", Male, Black, PersonWithGlasses(false), PersonWithHat(false), PersonWithBeard(true), Brown)
       )
@@ -75,7 +75,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
       gameEngine.filterCharacters(filteredCharacters, question, answer)
 
       val expectedFilteredCharacters = List(
-        Person("Alex", Male, Brown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
+        Person("Alex", Male, DarkBrown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
         Person("Beth", Female, Blonde, PersonWithGlasses(false), PersonWithHat(true), PersonWithBeard(false), Green)
       )
 
@@ -88,7 +88,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
       val gameEngine = new GameEngine
 
       val charactersList = List(
-        Person("Alex", Male, Brown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
+        Person("Alex", Male,  DarkBrown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue),
         Person("Beth", Female, Blonde, PersonWithGlasses(false), PersonWithHat(true), PersonWithBeard(false), Green),
         Person("Chris", Male, Black, PersonWithGlasses(false), PersonWithHat(false), PersonWithBeard(true), Brown)
       )
@@ -97,7 +97,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
       gameEngine.filterCharacters(filteredCharacters, question, answer)
 
       val expectedFilteredCharacters = List(
-        Person("Alex", Male, Brown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue)
+        Person("Alex", Male, DarkBrown, PersonWithGlasses(true), PersonWithHat(false), PersonWithBeard(false), Blue)
       )
 
       assert(filteredCharacters.toList == expectedFilteredCharacters)
