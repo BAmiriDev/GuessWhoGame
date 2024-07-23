@@ -42,7 +42,6 @@ class GameEngine {
         startTheGame()
       }
     }
-  }
   /**
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
@@ -153,3 +152,4 @@ class GameEngine {
     playerGameBoard.length == 1
   }
 }
+
