@@ -19,36 +19,41 @@ class GameEngine {
 
   /**
    * Create an object of player by assigning name, gameBoard and secret characters
+   *
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-
-     new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+    new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
   }
 
   /**
-
+   *
    * Starts the Game by calling all the necessary methods
    */
 
-  def startTheGame(): String = {
-    if (endGame(cpuPlayer.gameBoard)) {
-        "Congratulations, you won!"
+   def startTheGame(userWi): String = {
+     if (endGame(cpuPlayer.gameBoard)) {
+       "Congratulations, you won!"
+     }
+     else if (questionList.isEmpty) {
+       "No more questions left: I couldn't guess!"
+     }
+     else {
+       showGameBoard(cpuPlayer.gameBoard, "CPU")
+       println("\n")
+       val usersChoice = readLine("Press 'g' to guess the character or 'q' to ask questions:")
+       usersChoice match {
+         case "g" => guessCharacter()
+         case "q" => askQuestions()
+         case _ => println(s"Invalid input please try again ")
 
-      }
-      else if (questionList.isEmpty) {
-        "No more questions left: I couldn't guess!"
+       }
+       startTheGame()
+     }
+   }
 
-      }
-      else {
-        playerTurn()
-        startTheGame()
-      }
-    }
   /**
-
-
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
@@ -57,7 +62,6 @@ class GameEngine {
     val randomCharacter = characterList(random.nextInt(characterList.length))
     randomCharacter
   }
-
   /**
    * Select random question from the question list and filters out
    * questionList which is returned so that there is no repeated questions
@@ -72,9 +76,19 @@ class GameEngine {
     question
   }
 
-  def playerTurn() ={
+
+  def guessCharacter(): String = {
+    val userGuess: String = readLine("Enter your guess :")
+    if(userGuess.toLowerCase().equals(cpuPlayer.secretCharacter.name.toLowerCase())){
+      "Congratulations you won!! "
+    }
+    else{
+      "Sorry you lost the game!!"
+    }
+  }
+  def askQuestions() : String = {
     println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
-    showGameBoard(cpuPlayer.gameBoard, "CPU")
+    println("\n")
     println(s" Your Turn!!!!!'")
     println("Select the questions from below:")
     for ((question, index) <- questionList.zipWithIndex) {
@@ -85,9 +99,10 @@ class GameEngine {
     println(s"You selected : $selectedQuestion")
     // filter out the selectedQuestionList
     filterQuestionsForPlayer(selectedQuestion)
-    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute(selectedQuestion.toLowerCase)
+    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+    filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
     println(cpuAnswer)
-
+    s"*****************"
   }
 
   /** *
@@ -107,15 +122,39 @@ class GameEngine {
     output
 
   }
+
   def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
     questionList = questionList.filterNot(_ == selectedQuestion)
   }
+
+  //  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
+  //    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
+  //    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
+  //    else false
+  //  }
   def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
-    ???
+    question.toLowerCase match {
+      case question if question.contains("male") => cpuPlayer.secretCharacter.gender == Male
+      case question if question.contains("female") => cpuPlayer.secretCharacter.gender == Female
+      case question if question.contains("blond hair") => cpuPlayer.secretCharacter.hairColor == Blonde
+      case question if question.contains("brown hair") => cpuPlayer.secretCharacter.hairColor == DarkBrown
+      case question if question.contains("black hair") => cpuPlayer.secretCharacter.hairColor == Black
+      case question if question.contains("red hair") => cpuPlayer.secretCharacter.hairColor == Red
+      case question if question.contains("grey hair") => cpuPlayer.secretCharacter.hairColor == Grey
+      case question if question.contains("glasses") => cpuPlayer.secretCharacter.wearsGlasses.value
+      case question if question.contains("hat") => cpuPlayer.secretCharacter.wearsHat.value
+      case question if question.contains("beard") => cpuPlayer.secretCharacter.hasBeard.value
+      case question if question.contains("blue") => cpuPlayer.secretCharacter.eyeColor == Blue
+      case question if question.contains("brown") => cpuPlayer.secretCharacter.eyeColor == Brown
+      case question if question.contains("green") => cpuPlayer.secretCharacter.eyeColor == Green
+      case question if question.contains("hazel") => cpuPlayer.secretCharacter.eyeColor == Hazel
+      case _ => false
+    }
   }
 
   /**
    * Filters out the list of character based upon the question and answer
+   *
    * @param characters The list of character for the gameBoard
    * @param question   The answer to the question (true or false).
    * @param answer     A list of characters that match the filter criteria.
@@ -141,6 +180,7 @@ class GameEngine {
     }
     characters
   }
+
   def showGameBoard(firstPlayerGameBoard: ListBuffer[Person], playerName: String): Unit = {
     println(s"***********$playerName's Game board ***********")
     for (row <- firstPlayerGameBoard) {
