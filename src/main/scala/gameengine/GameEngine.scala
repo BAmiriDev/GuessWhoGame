@@ -1,8 +1,9 @@
 package gameengine
 
-import characters.{GameBoard, Person, Player, Resources}
+import characters._
 
 import scala.Console.println
+import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.readLine
 import scala.util.Random
@@ -21,13 +22,16 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-   new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+
+     new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
   }
 
   /**
+
    * Starts the Game by calling all the necessary methods
    */
+
   def startTheGame(): String = {
     if (endGame(cpuPlayer.gameBoard)) {
         "Congratulations, you won!"
@@ -43,6 +47,8 @@ class GameEngine {
       }
     }
   /**
+
+
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
@@ -76,10 +82,10 @@ class GameEngine {
     }
     val selectedQuestionIndex = readLine("Select your question:").toInt
     val selectedQuestion: String = questionList(selectedQuestionIndex - 1)
-    println(s"You selected : ${selectedQuestion}")
+    println(s"You selected : $selectedQuestion")
     // filter out the selectedQuestionList
     filterQuestionsForPlayer(selectedQuestion)
-    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute(selectedQuestion.toLowerCase)
     println(cpuAnswer)
 
   }
@@ -117,20 +123,20 @@ class GameEngine {
    */
   def filterCharacters(characters: ListBuffer[Person], question: String, answer: Boolean): ListBuffer[Person] = {
     question match {
-      case "Is your person male?" => characters.filterInPlace(_.gender == "Male" == answer)
-      case "Is your person female?" => characters.filterInPlace(_.gender == "Female" == answer)
-      case "Does your person have blonde hair?" => characters.filterInPlace(_.hairColor == "Blonde" == answer)
-      case "Does your person have brown hair?" => characters.filterInPlace(_.hairColor == "Brown" == answer)
-      case "Does your person have black hair?" => characters.filterInPlace(_.hairColor == "Black" == answer)
-      case "Does your person have red hair?" => characters.filterInPlace(_.hairColor == "Red" == answer)
-      case "Does your person have grey hair?" => characters.filterInPlace(_.hairColor == "Grey" == answer)
-      case "Does your person wear glasses?" => characters.filterInPlace(_.wearsGlasses == answer)
-      case "Does your person wear a hat?" => characters.filterInPlace(_.wearsHat == answer)
-      case "Does your person have a beard?" => characters.filterInPlace(_.hasBeard == answer)
-      case "Does your person have blue eyes?" => characters.filterInPlace(_.eyeColor == "Blue" == answer)
-      case "Does your person have green eyes?" => characters.filterInPlace(_.eyeColor == "Green" == answer)
-      case "Does your person have brown eyes?" => characters.filterInPlace(_.eyeColor == "Brown" == answer)
-      case "Does your person have hazel eyes?" => characters.filterInPlace(_.eyeColor == "Hazel" == answer)
+      case "Is your person male?" => characters.filterInPlace(_.gender == Male == answer)
+      case "Is your person female?" => characters.filterInPlace(_.gender == Female == answer)
+      case "Does your person have blonde hair?" => characters.filterInPlace(_.hairColor == Blonde == answer)
+      case "Does your person have brown hair?" => characters.filterInPlace(_.hairColor == DarkBrown == answer)
+      case "Does your person have black hair?" => characters.filterInPlace(_.hairColor == Black == answer)
+      case "Does your person have red hair?" => characters.filterInPlace(_.hairColor == Red == answer)
+      case "Does your person have grey hair?" => characters.filterInPlace(_.hairColor == Grey == answer)
+      case "Does your person wear glasses?" => characters.filterInPlace(_.wearsGlasses.value == answer)
+      case "Does your person wear a hat?" => characters.filterInPlace(_.wearsHat.value == answer)
+      case "Does your person have a beard?" => characters.filterInPlace(_.hasBeard.value == answer)
+      case "Does your person have blue eyes?" => characters.filterInPlace(_.eyeColor == Blue == answer)
+      case "Does your person have green eyes?" => characters.filterInPlace(_.eyeColor == Green == answer)
+      case "Does your person have brown eyes?" => characters.filterInPlace(_.eyeColor == Brown == answer)
+      case "Does your person have hazel eyes?" => characters.filterInPlace(_.eyeColor == Hazel == answer)
       case _ => characters.clear() // If the question does not match any case, clear the list
     }
     characters
@@ -145,7 +151,6 @@ class GameEngine {
 
   /**
    * Checks if the length of the gameBoard is 1 means only one character left in the gameBoard
-   * @param characters The game board of the player
    * @return returns true if the length of gameBoard == 1 else returns false
    */
   def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
