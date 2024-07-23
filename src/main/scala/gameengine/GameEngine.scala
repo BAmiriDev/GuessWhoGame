@@ -1,6 +1,6 @@
 package gameengine
 
-import characters.{Black, Blonde, Blue, Brown, DarkBrown, EyeColour, Female, GameBoard, Gender, Green, Grey, HairColour, Hazel, Male, Person, PersonWithBeard, PersonWithGlasses, PersonWithHat, Player, Red, Resources}
+import characters._
 
 import scala.Console.println
 import scala.collection.mutable.ListBuffer
@@ -22,40 +22,37 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-
-     new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+    new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
   }
 
   /**
-
    * Starts the Game by calling all the necessary methods
    */
+
+
   def startTheGame(): String = {
     while (continuedPlaying) {
       if (endGame(cpuPlayer.gameBoard)) {
         println("Congratulations, you won!")
         continuedPlaying = false
-      }
-      else if (questionList.isEmpty) {
+      } else if (questionList.isEmpty) {
         println("No more questions left: I couldn't guess!")
         println("You Won")
         continuedPlaying = false
-      }
-      else {
+      } else {
         playerTurn()
       }
     }
     if (cpuPlayer.gameBoard.head.name == cpuPlayer.secretCharacter.name) {
       s"Is this your character ${cpuPlayer.gameBoard.head.name}?"
-    }
-    else {
+    } else {
       s"Is this your character ${cpuPlayer.gameBoard.head.name}?\n" +
         s"Congratulations, You win!!!!"
     }
   }
-  /**
 
+  /**
    * Select random character by from Character List from Resources class
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
@@ -79,7 +76,7 @@ class GameEngine {
     question
   }
 
-  def playerTurn() ={
+  def playerTurn(): Unit = {
     println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
     showGameBoard(cpuPlayer.gameBoard, "CPU")
     println(s" Your Turn!!!!!'")
@@ -95,10 +92,9 @@ class GameEngine {
     val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
     filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
     println(cpuAnswer)
-
   }
 
-  /** *
+  /**
    * Prints the secret Character of player in formatted order
    * @param secretCharacter the gameBoard assigned for player1
    */
@@ -113,21 +109,17 @@ class GameEngine {
       f"${secretCharacter.wearsHat}%-15s${secretCharacter.hasBeard}%-15s${secretCharacter.eyeColor}%-15s"
     val output: String = header + "\n" + separator + "\n" + row
     output
-
   }
+
   def filterQuestionsForPlayer(selectedQuestion: String): Unit = {
     questionList = questionList.filterNot(_ == selectedQuestion)
   }
-//  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
-//    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
-//    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
-//    else false
-//  }
+
   def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
     question.toLowerCase match {
       case question if question.contains("male") => cpuPlayer.secretCharacter.gender == Male
       case question if question.contains("female") => cpuPlayer.secretCharacter.gender == Female
-      case question if question.contains("blond hair") => cpuPlayer.secretCharacter.hairColor == Blonde
+      case question if question.contains("blonde hair") => cpuPlayer.secretCharacter.hairColor == Blonde
       case question if question.contains("brown hair") => cpuPlayer.secretCharacter.hairColor == DarkBrown
       case question if question.contains("black hair") => cpuPlayer.secretCharacter.hairColor == Black
       case question if question.contains("red hair") => cpuPlayer.secretCharacter.hairColor == Red
@@ -135,10 +127,10 @@ class GameEngine {
       case question if question.contains("glasses") => cpuPlayer.secretCharacter.wearsGlasses.value
       case question if question.contains("hat") => cpuPlayer.secretCharacter.wearsHat.value
       case question if question.contains("beard") => cpuPlayer.secretCharacter.hasBeard.value
-      case question if question.contains("blue") => cpuPlayer.secretCharacter.eyeColor == Blue
-      case question if question.contains("brown") => cpuPlayer.secretCharacter.eyeColor == Brown
-      case question if question.contains("green") => cpuPlayer.secretCharacter.eyeColor == Green
-      case question if question.contains("hazel") => cpuPlayer.secretCharacter.eyeColor == Hazel
+      case question if question.contains("blue eyes") => cpuPlayer.secretCharacter.eyeColor == Blue
+      case question if question.contains("green eyes") => cpuPlayer.secretCharacter.eyeColor == Green
+      case question if question.contains("brown eyes") => cpuPlayer.secretCharacter.eyeColor == Brown
+      case question if question.contains("hazel eyes") => cpuPlayer.secretCharacter.eyeColor == Hazel
       case _ => false
     }
   }
@@ -170,12 +162,14 @@ class GameEngine {
     }
     characters
   }
+
   def showGameBoard(firstPlayerGameBoard: ListBuffer[Person], playerName: String): Unit = {
     println(s"***********$playerName's Game board ***********")
     for (row <- firstPlayerGameBoard) {
       print(row.name)
       print(" ")
     }
+    println() // To add a newline after printing all names
   }
 
   /**
@@ -186,4 +180,13 @@ class GameEngine {
   def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
     playerGameBoard.length == 1
   }
+
+  def resetGame() = {
+    println("Game reset!")
+    questionList = resources.listOfQuestions
+    val cpuPlayer1 =  createPlayerAndAssignGameBoard()
+    continuedPlaying = true
+    startTheGame() // Restart the game loop after resetting
+  }
+
 }
