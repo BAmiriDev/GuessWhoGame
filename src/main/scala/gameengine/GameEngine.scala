@@ -28,33 +28,59 @@ class GameEngine {
   }
 
   /**
-   *
    * Starts the Game by calling all the necessary methods
    */
 
-   def startTheGame(userWi): String = {
-     if (endGame(cpuPlayer.gameBoard)) {
-       "Congratulations, you won!"
-     }
-     else if (questionList.isEmpty) {
-       "No more questions left: I couldn't guess!"
-     }
-     else {
-       showGameBoard(cpuPlayer.gameBoard, "CPU")
-       println("\n")
-       val usersChoice = readLine("Press 'g' to guess the character or 'q' to ask questions:")
-       usersChoice match {
-         case "g" => guessCharacter()
-         case "q" => askQuestions()
-         case _ => println(s"Invalid input please try again ")
+  def startTheGame(): String = {
+    @tailrec
+    def helpStartTheGame(acc: String): String = {
+      if (acc == "Congratulations you won") acc
+      else if (acc == "You lost") acc
+      else if (questionList.isEmpty) "Sorry No more questions left"
+      else {
+        showGameBoard(cpuPlayer.gameBoard, "CPU")
+        println("\n")
+        val usersChoice = readLine("Press 'g' to guess the character, 'q' to ask questions and 'r' to reset the game:")
+        usersChoice match {
+          case "g" =>
+            println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
+            val userGuess: String = readLine("Enter your guess :")
+            if (userGuess.toLowerCase().equals(cpuPlayer.secretCharacter.name.toLowerCase())) {
+              helpStartTheGame(acc + "Congratulations you won")
+            }
+            else {
+              helpStartTheGame(acc + "You lost")
+            }
+          case "q" =>
+            println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
+            println("\n")
+            println(s"Your Turn !!!'")
+            println("Select the questions from below:")
+            for ((question, index) <- questionList.zipWithIndex) {
+              println(s"${index + 1}. $question")
+            }
+            val selectedQuestionIndex = readLine("Select your question:").toInt
+            val selectedQuestion: String = questionList(selectedQuestionIndex - 1)
+            println(s"You selected : $selectedQuestion")
+            // filter out the selectedQuestionList
+            filterQuestionsForPlayer(selectedQuestion)
+            val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
+            filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
+            println(cpuAnswer)
+            helpStartTheGame(acc + "")
+          //case "r" => resetGame()
+          case _ => helpStartTheGame("Wrong Character")
+        }
+      }
+    }
 
-       }
-       startTheGame()
-     }
-   }
+    helpStartTheGame("")
+  }
+
 
   /**
    * Select random character by from Character List from Resources class
+   *
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
    */
@@ -62,9 +88,11 @@ class GameEngine {
     val randomCharacter = characterList(random.nextInt(characterList.length))
     randomCharacter
   }
+
   /**
    * Select random question from the question list and filters out
    * questionList which is returned so that there is no repeated questions
+   *
    * @return if
    *         * list is empty returns there are `no more questions`
    *         else returns the selected random question
@@ -77,36 +105,9 @@ class GameEngine {
   }
 
 
-  def guessCharacter(): String = {
-    val userGuess: String = readLine("Enter your guess :")
-    if(userGuess.toLowerCase().equals(cpuPlayer.secretCharacter.name.toLowerCase())){
-      "Congratulations you won!! "
-    }
-    else{
-      "Sorry you lost the game!!"
-    }
-  }
-  def askQuestions() : String = {
-    println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
-    println("\n")
-    println(s" Your Turn!!!!!'")
-    println("Select the questions from below:")
-    for ((question, index) <- questionList.zipWithIndex) {
-      println(s"${index + 1}. $question")
-    }
-    val selectedQuestionIndex = readLine("Select your question:").toInt
-    val selectedQuestion: String = questionList(selectedQuestionIndex - 1)
-    println(s"You selected : $selectedQuestion")
-    // filter out the selectedQuestionList
-    filterQuestionsForPlayer(selectedQuestion)
-    val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
-    filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
-    println(cpuAnswer)
-    s"*****************"
-  }
-
   /** *
    * Prints the secret Character of player in formatted order
+   *
    * @param secretCharacter the gameBoard assigned for player1
    */
   def printSecretCharacterForPlayer(secretCharacter: Person): String = {
@@ -127,11 +128,6 @@ class GameEngine {
     questionList = questionList.filterNot(_ == selectedQuestion)
   }
 
-  //  def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
-  //    if (question.contains(cpuPlayer.secretCharacter.name.toLowerCase())) true
-  //    else if (question.contains(cpuPlayer.secretCharacter.gender.toLowerCase())) true
-  //    else false
-  //  }
   def matchPlayerQuestionToCpuCharacterAttribute(question: String): Boolean = {
     question.toLowerCase match {
       case question if question.contains("male") => cpuPlayer.secretCharacter.gender == Male
@@ -191,10 +187,9 @@ class GameEngine {
 
   /**
    * Checks if the length of the gameBoard is 1 means only one character left in the gameBoard
+   *
    * @return returns true if the length of gameBoard == 1 else returns false
    */
-  def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
-    playerGameBoard.length == 1
-  }
+
 }
 
