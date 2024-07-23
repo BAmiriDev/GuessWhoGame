@@ -1,5 +1,7 @@
 package characters
 
+import characters._
+
 case class Person(
                    name: String,
                    gender: Gender,

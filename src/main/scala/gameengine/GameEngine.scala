@@ -35,7 +35,7 @@ class GameEngine {
    */
   def selectRandomCharacter(characterList: List[Person]): Person = {
     val randomCharacter = characterList(random.nextInt(characterList.length))
-    randomCharacter
+
   }
 
   /**
@@ -66,7 +66,7 @@ class GameEngine {
     val row = f"| ${secretCharacter.name}%-15s | ${secretCharacter.gender}%-10s | ${secretCharacter.hairColor}%-15s | ${secretCharacter.wearsGlasses}%-15s |" +
       f"${secretCharacter.wearsHat}%-15s${secretCharacter.hasBeard}%-15s${secretCharacter.eyeColor}%-15s"
     val output: String = header + "\n" + separator + "\n" + row
-    output
+
 
   }
 
