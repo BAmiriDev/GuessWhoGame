@@ -106,17 +106,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
     }
   }
 
-  "GameEngine.endGame" should {
-    "return true when only one character is left" in {
-      val singleCharacterList = ListBuffer(resources.charactersList.head)
-      assert(gameEngine.endGame(singleCharacterList))
-    }
 
-    "return false when more than one character is left" in {
-      val characters = ListBuffer.from(expectedCharacters)
-      assert(!gameEngine.endGame(characters))
-    }
-  }
 
   "GameEngine.createPlayerAndAssignGameBoard" should {
     "create a player and assign the game board" in {
@@ -127,12 +117,7 @@ class GuessWhoGameSpec extends AnyWordSpec {
     }
   }
 
-  "GameEngine.resetGame" should {
-    "reset the game properly" in {
-      gameEngine.resetGame()
-      assert(resources.charactersList.contains(gameEngine.createPlayerAndAssignGameBoard().secretCharacter))
-    }
-  }
+
 
   "GameEngine.showGameBoard" should {
     "print the game board correctly" in {
