@@ -22,9 +22,8 @@ class GameEngine {
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
-    val player = new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
+   new Player(name = "CPU", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
-    player
   }
 
   /**
