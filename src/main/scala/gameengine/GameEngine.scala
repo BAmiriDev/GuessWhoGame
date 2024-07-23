@@ -3,6 +3,7 @@ package gameengine
 import characters._
 
 import scala.Console.println
+import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.io.StdIn.readLine
 import scala.util.Random
@@ -19,6 +20,7 @@ class GameEngine {
 
   /**
    * Create an object of player by assigning name, gameBoard and secret characters
+   *
    * @return player object
    */
   def createPlayerAndAssignGameBoard(): Player = {
@@ -27,33 +29,34 @@ class GameEngine {
   }
 
   /**
+   *
    * Starts the Game by calling all the necessary methods
    */
-
-
   def startTheGame(): String = {
-    while (continuedPlaying) {
-      if (endGame(cpuPlayer.gameBoard)) {
-        println("Congratulations, you won!")
-        continuedPlaying = false
-      } else if (questionList.isEmpty) {
-        println("No more questions left: I couldn't guess!")
-        println("You Won")
-        continuedPlaying = false
-      } else {
-        playerTurn()
-      }
+    if (endGame(cpuPlayer.gameBoard)) {
+      "Congratulations, you won!"
     }
-    if (cpuPlayer.gameBoard.head.name == cpuPlayer.secretCharacter.name) {
-      s"Is this your character ${cpuPlayer.gameBoard.head.name}?"
-    } else {
-      s"Is this your character ${cpuPlayer.gameBoard.head.name}?\n" +
-        s"Congratulations, You win!!!!"
+    else if (questionList.isEmpty) {
+      "No more questions left: I couldn't guess!"
+    }
+    else {
+      showGameBoard(cpuPlayer.gameBoard, "CPU")
+      println("\n")
+      val usersChoice = readLine("Press 'g' to guess the character or 'q' to ask questions:")
+      usersChoice match {
+        case "g" => guessCharacter()
+        case "r" => resetGame()
+        case "q" => askQuestions()
+        case _ => println(s"Invalid input please try again ")
+      }
+      startTheGame()
     }
   }
 
+
   /**
    * Select random character by from Character List from Resources class
+   *
    * @param characterList list of characters from resources class
    * @return randomCharacter of type Person
    */
@@ -65,6 +68,7 @@ class GameEngine {
   /**
    * Select random question from the question list and filters out
    * questionList which is returned so that there is no repeated questions
+   *
    * @return if
    *         * list is empty returns there are `no more questions`
    *         else returns the selected random question
@@ -76,26 +80,40 @@ class GameEngine {
     question
   }
 
-  def playerTurn(): Unit = {
+  def guessCharacter(): Unit = {
+    val userGuess: String = readLine("Enter your guess :")
+    if (userGuess.toLowerCase().equals(cpuPlayer.secretCharacter.name.toLowerCase())) {
+      println("Congratulations you won!! ")
+      continuedPlaying = false
+    }
+    else {
+      println("Sorry you lost the game!!")
+      continuedPlaying = false
+    }
+  }
+
+  def askQuestions(): Unit = {
     println(printSecretCharacterForPlayer(cpuPlayer.secretCharacter))
-    showGameBoard(cpuPlayer.gameBoard, "CPU")
-    println(s" Your Turn!!!!!'")
+    println("\n")
+    println(s"Your Turn!!!!!'")
     println("Select the questions from below:")
     for ((question, index) <- questionList.zipWithIndex) {
       println(s"${index + 1}. $question")
     }
     val selectedQuestionIndex = readLine("Select your question:").toInt
     val selectedQuestion: String = questionList(selectedQuestionIndex - 1)
-    println(s"You selected : ${selectedQuestion}")
+    println(s"You selected : $selectedQuestion")
     // filter out the selectedQuestionList
     filterQuestionsForPlayer(selectedQuestion)
     val cpuAnswer = matchPlayerQuestionToCpuCharacterAttribute((selectedQuestion.toLowerCase))
     filterCharacters(cpuPlayer.gameBoard, selectedQuestion, cpuAnswer)
     println(cpuAnswer)
+    println("*****************")
   }
 
   /**
    * Prints the secret Character of player in formatted order
+   *
    * @param secretCharacter the gameBoard assigned for player1
    */
   def printSecretCharacterForPlayer(secretCharacter: Person): String = {
@@ -137,6 +155,7 @@ class GameEngine {
 
   /**
    * Filters out the list of character based upon the question and answer
+   *
    * @param characters The list of character for the gameBoard
    * @param question   The answer to the question (true or false).
    * @param answer     A list of characters that match the filter criteria.
@@ -174,19 +193,19 @@ class GameEngine {
 
   /**
    * Checks if the length of the gameBoard is 1 means only one character left in the gameBoard
-   * @param characters The game board of the player
+   *
    * @return returns true if the length of gameBoard == 1 else returns false
    */
   def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
     playerGameBoard.length == 1
   }
 
-  def resetGame() = {
+  def resetGame(): Unit = {
     println("Game reset!")
     questionList = resources.listOfQuestions
-    val cpuPlayer1 =  createPlayerAndAssignGameBoard()
+    val cpuPlayer1 = createPlayerAndAssignGameBoard()
     continuedPlaying = true
     startTheGame() // Restart the game loop after resetting
   }
-
 }
+
