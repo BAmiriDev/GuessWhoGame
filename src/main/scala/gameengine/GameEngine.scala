@@ -24,7 +24,7 @@ class GameEngine {
   def createPlayerAndAssignGameBoard(): Player = {
     val player = new Player(name = "Player1", gameBoard = gameBoard.gameBoardForPlayer,
       selectRandomCharacter(resources.charactersList))
-    player
+
   }
 
 
@@ -106,4 +106,8 @@ class GameEngine {
   def endGame(playerGameBoard: ListBuffer[Person]): Boolean = {
     playerGameBoard.length == 1
   }
+
+
+
+
 }

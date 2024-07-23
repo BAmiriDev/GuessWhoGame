@@ -4,7 +4,7 @@ class Resources {
   //create a list of characters
 
   val charactersList:List[Person] = List(
-      Person("Alex", "Male", "Brown", wearsGlasses = true, wearsHat = false, hasBeard = false, "Blue"),
+      Person("Alex", gender = Male, "Brown", PersonWithGlasses(true) , PersonWithHat(false), PersonWithBeard(false), "Blue"),
       Person("Beth", "Female", "Blonde", wearsGlasses = false, wearsHat = true, hasBeard = false, "Green"),
       Person("Chris", "Male", "Black", wearsGlasses = false, wearsHat = false, hasBeard = true, "Brown"),
       Person("Dana", "Female", "Red", wearsGlasses = true, wearsHat = false, hasBeard = false, "Hazel"),

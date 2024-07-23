@@ -2,11 +2,12 @@ package characters
 
 case class Person(
                    name: String,
-                   gender: String,
-                   hairColor: String,
-                   wearsGlasses: Boolean,
-                   wearsHat: Boolean,
-                   hasBeard: Boolean,
-                   eyeColor: String,
+                   gender: Gender,
+                   hairColor: HairColour,
+                   wearsGlasses: PersonWithGlasses,
+                   wearsHat: PersonWithHat,
+                   hasBeard: PersonWithBeard,
+                   eyeColor: EyeColour,
                  )
+
 
